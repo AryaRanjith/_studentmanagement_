@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .pending { color: orange; font-weight: bold; }
+        .approved { color: green; font-weight: bold; }
+        .rejected { color: red; font-weight: bold; }
+
+        .no-data {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            background: #f9f9f9;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Leave Applications</h2>
+
+{% if leaves %}
+<table>
+    <tr>
+        <th>#</th>
+        <th>Student</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Reason</th>
+        <th>Action</th>
+        <th>Status</th>
+    </tr>
+
+    {% for leave in leaves %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ leave.student.username }}</td>
+        <td>{{ leave.from_date }}</td>
+        <td>{{ leave.to_date }}</td>
+        <td>{{ leave.reason }}</td>
+
+        <td>
+            <form method="POST" action="{% url 'update_leave_status' leave.id %}">
+                {% csrf_token %}
+                <select name="status">
+                    <option value="Pending" {% if leave.status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Approved" {% if leave.status == "Approved" %}selected{% endif %}>Approved</option>
+                    <option value="Rejected" {% if leave.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </td>
+
+        <td>
+            {% if leave.status == "Pending" %}
+                <span class="pending">Pending</span>
+            {% elif leave.status == "Approved" %}
+                <span class="approved">Approved</span>
+            {% else %}
+                <span class="rejected">Rejected</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<div class="no-data">
+    No leave requests available.
+</div>
+{% endif %}
+
+</body>
+</html>

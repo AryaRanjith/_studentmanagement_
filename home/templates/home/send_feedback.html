@@ -1,0 +1,30 @@
+{% extends "<home>base_student.html" %}
+{% block content %}
+<h2>Send Feedback</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label>Feedback</label>
+        <textarea name="feedback" class="form-control" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Send</button>
+</form>
+
+<h4 class="mt-4">Previous Feedback</h4>
+<table class="table table-striped mt-2">
+    <thead>
+        <tr>
+            <th>Feedback</th>
+            <th>Reply</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fb in feedbacks %}
+        <tr>
+            <td>{{ fb.feedback }}</td>
+            <td>{{ fb.feedback_reply|default:"-" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

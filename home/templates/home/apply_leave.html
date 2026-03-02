@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Apply Leave</title>
+    <style>
+        body { font-family: Arial; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f2f2f2; }
+        .pending { color: orange; font-weight: bold; }
+        .approved { color: green; font-weight: bold; }
+        .rejected { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>Apply Leave</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <label>From Date:</label><br>
+    <input type="date" name="leave_from" required><br><br>
+
+    <label>To Date:</label><br>
+    <input type="date" name="leave_to" required><br><br>
+
+    <label>Reason:</label><br>
+    <textarea name="reason" required></textarea><br><br>
+
+    <button type="submit">Apply Leave</button>
+</form>
+
+<hr>
+
+<h2>Your Leave Applications</h2>
+
+{% if leaves %}
+<table>
+    <tr>
+        <th>#</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+
+    {% for leave in leaves %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ leave.from_date }}</td>
+        <td>{{ leave.to_date }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>
+            {% if leave.status == "Pending" %}
+                <span class="pending">Pending</span>
+            {% elif leave.status == "Approved" %}
+                <span class="approved">Approved</span>
+            {% else %}
+                <span class="rejected">Rejected</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No leave applications found.</p>
+{% endif %}
+
+</body>
+</html>

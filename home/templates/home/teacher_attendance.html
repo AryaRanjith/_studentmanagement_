@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Attendance</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5" style="max-width:500px">
+    <h3 class="text-center mb-3">Add Attendance</h3>
+
+    <form method="POST" id="attendance-form">
+        {% csrf_token %}
+
+        <label class="fw-bold">Student Username</label>
+        <select name="student" class="form-select mb-3" required>
+            <option value="">Select Student</option>
+            {% for s in students %}
+            <option value="{{s.id}}">{{s.username}}</option>
+            {% endfor %}
+        </select>
+
+        <label class="fw-bold">Subject</label>
+        <select name="subject" class="form-select mb-3" required>
+            <option value="">Select Subject</option>
+            {% for sub in subjects %}
+            <option value="{{sub.department_id}}">{{sub.name}}</option>
+            {% endfor %}
+        </select>
+
+        <label class="fw-bold">Status</label>
+        <select name="status" class="form-select mb-3" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+
+        <button type="submit" class="btn btn-dark w-100">Submit Attendance</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success mt-3">{{message}}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+</body>
+</html>

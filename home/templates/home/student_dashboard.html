@@ -1,0 +1,12 @@
+{% extends "home/base_student.html" %}
+{% block content %}
+<h2>Welcome, {{ request.session.student_name }}</h2>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Attendance</h5>
+            <h2>{{ attendance_percent }}%</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Marks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5" style="max-width:500px">
+
+<h3 class="text-center mb-4">Upload Student Marks</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label class="fw-bold">Student Username</label>
+    <input type="text" name="student_username" class="form-control mb-2" required>
+
+    <label class="fw-bold">Subject</label>
+    <input type="text" name="subject" class="form-control mb-2" required>
+
+    <label class="fw-bold">Mark</label>
+    <input type="number" name="mark" class="form-control mb-3" required>
+
+    <button type="submit" class="btn btn-dark w-100">Upload Marks</button>
+</form>
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-info mt-3">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "home/base_student.html" %}
+{% block content %}
+<h2>Attendance</h2>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for att in attendance %}
+        <tr>
+            <td>{{ att.subject.subject_name }}</td>
+            <td>{{ att.attendance.attendance_date }}</td>
+            <td>{{ att.status|yesno:"Present,Absent" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
